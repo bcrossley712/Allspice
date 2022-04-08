@@ -14,19 +14,36 @@ namespace Allspice.Repositories
     {
       _db = db;
     }
-
     internal List<Recipe> GetAll()
     {
-      string sql = "SELECT * FROM recipes";
-      return _db.Query<Recipe>(sql).ToList();
-    }
+      string sql = @"
+      SELECT 
+      r.*,
+      a.* 
+      FROM recipes r
+      JOIN accounts a WHERE a.id = r.creatorId;";
+      return _db.Query<Recipe, Account, Recipe>(sql, (recipe, account) =>
+      {
+        recipe.Creator = account;
+        return recipe;
 
+      }).ToList();
+    }
     internal Recipe GetById(int id)
     {
-      string sql = "SELECT * FROM recipes WHERE id = @id";
-      return _db.QueryFirstOrDefault<Recipe>(sql, new { id });
+      string sql = @"
+      SELECT 
+      r.*,
+      a.*
+      FROM recipes r 
+      JOIN accounts a ON r.creatorId = a.id
+      WHERE r.id = @id";
+      return _db.Query<Recipe, Account, Recipe>(sql, (recipe, account) =>
+      {
+        recipe.Creator = account;
+        return recipe;
+      }, new { id }).FirstOrDefault();
     }
-
     internal Recipe Create(Recipe recipeData)
     {
       string sql = @"
@@ -39,6 +56,23 @@ namespace Allspice.Repositories
       int id = _db.ExecuteScalar<int>(sql, recipeData);
       recipeData.Id = id;
       return recipeData;
+    }
+    internal void Update(Recipe original)
+    {
+      string sql = @"
+      UPDATE recipes
+      SET
+      title = @Title,
+      subtitle = @Subtitle,
+      category = @Category,
+      imgUrl = @ImgUrl
+      WHERE id = @Id;";
+      _db.Execute(sql, original);
+    }
+    internal void Remove(int id)
+    {
+      string sql = "DELETE FROM recipes WHERE id = @id LIMIT 1;";
+      _db.Execute(sql, new { id });
     }
   }
 }

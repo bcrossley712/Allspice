@@ -69,8 +69,8 @@ namespace Allspice.Controllers
       try
       {
         Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
-        updateData.CreatorId = userInfo.Id;
-        Recipe update = _recipesService.Update(id, updateData);
+        updateData.Id = id;
+        Recipe update = _recipesService.Update(userInfo, updateData);
         return Created($"api/recipes/{update.Id}", update);
       }
       catch (Exception e)

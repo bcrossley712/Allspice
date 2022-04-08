@@ -34,14 +34,28 @@ namespace Allspice.Services
       return _recRepo.Create(recipeData);
     }
 
-    internal Recipe Update(int id, Recipe updateData)
+    internal Recipe Update(Account userInfo, Recipe updateData)
     {
-      throw new NotImplementedException();
+      Recipe original = GetById(updateData.Id);
+      if (original.CreatorId != userInfo.Id)
+      {
+        throw new Exception("You cannot modify this");
+      }
+      original.Title = updateData.Title ?? original.Title;
+      original.Subtitle = updateData.Subtitle ?? original.Subtitle;
+      original.Category = updateData.Category ?? original.Category;
+      original.ImgUrl = updateData.ImgUrl ?? original.ImgUrl;
+      _recRepo.Update(original);
+      return original;
     }
     internal void Remove(int id, Account userInfo)
     {
-      throw new NotImplementedException();
-
+      Recipe recipe = GetById(id);
+      if (recipe.CreatorId != userInfo.Id)
+      {
+        throw new Exception("You cannot delete this");
+      }
+      _recRepo.Remove(id);
     }
   }
 }
