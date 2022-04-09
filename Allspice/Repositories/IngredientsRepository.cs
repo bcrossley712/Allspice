@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -46,6 +47,26 @@ namespace Allspice.Repositories
       int id = _db.ExecuteScalar<int>(sql, ingredientData);
       ingredientData.Id = id;
       return ingredientData;
+    }
+
+    internal void Update(Ingredient original)
+    {
+      string sql = @"
+      UPDATE ingredients
+      SET
+      name = @Name
+      quantity = @Quantity
+      WHERE id = @Id;
+      ";
+      _db.Execute(sql, original);
+    }
+
+    internal void Remove(int id)
+    {
+      string sql = @"
+      DELETE FROM ingredients WHERE id = @id LIMIT 1;
+      ";
+      _db.Execute(sql, new { id });
     }
   }
 }

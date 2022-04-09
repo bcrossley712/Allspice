@@ -40,9 +40,29 @@ namespace Allspice.Services
       }
       return _ingRepo.Create(ingredientData);
     }
-    internal void Remove(Account userInfo, int id)
+    internal Ingredient Update(string userId, int id, Ingredient update)
     {
-      throw new NotImplementedException();
+      Recipe foundRecipe = _recipesService.GetById(update.RecipeId);
+      if (userId != foundRecipe.CreatorId)
+      {
+        throw new Exception("You did not create this recipe so you cannot edit ingredients in it");
+      }
+      Ingredient original = GetById(id);
+      original.Name = update.Name ?? original.Name;
+      original.Quantity = update.Quantity ?? original.Quantity;
+      _ingRepo.Update(original);
+      return original;
     }
+    internal void Remove(String userId, int id)
+    {
+      Ingredient toDelete = GetById(id);
+      Recipe foundRecipe = _recipesService.GetById(toDelete.RecipeId);
+      if (userId != foundRecipe.CreatorId)
+      {
+        throw new Exception("You did not create this recipe so you cannot remove ingredients from it");
+      }
+      _ingRepo.Remove(id);
+    }
+
   }
 }

@@ -60,6 +60,20 @@ namespace Allspice.Controllers
         return BadRequest(e.Message);
       }
     }
+    [HttpPut("{id}")]
+    public async Task<ActionResult<Ingredient>> Update(int id, [FromBody] Ingredient updateData)
+    {
+      try
+      {
+        Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
+        Ingredient update = _ingredientsService.Update(userInfo.Id, id, updateData);
+        return Created($"api/ingredients/{update.Id}", update);
+      }
+      catch (Exception e)
+      {
+        return BadRequest(e.Message);
+      }
+    }
     [HttpDelete("{id}")]
     [Authorize]
     public async Task<ActionResult<string>> Remove(int id)
@@ -67,7 +81,7 @@ namespace Allspice.Controllers
       try
       {
         Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
-        _ingredientsService.Remove(userInfo, id);
+        _ingredientsService.Remove(userInfo.Id, id);
         return Ok("Deleted");
       }
       catch (Exception e)
