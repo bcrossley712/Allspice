@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using Allspice.Models;
 using Allspice.Repositories;
 
@@ -14,11 +13,6 @@ namespace Allspice.Services
     {
       _steRepo = steRepo;
       _recipesService = recipesService;
-    }
-
-    internal List<Step> GetAll()
-    {
-      return _steRepo.GetAll();
     }
 
     internal Step GetById(int id)

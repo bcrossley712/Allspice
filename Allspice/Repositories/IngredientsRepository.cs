@@ -15,13 +15,14 @@ namespace Allspice.Repositories
       _db = db;
     }
 
-    internal List<Ingredient> GetAll()
+    internal List<Ingredient> GetAll(int id)
     {
       string sql = @"
       SELECT *
-      FROM ingredients
+      FROM ingredients i
+      WHERE i.recipeId = @id
       ";
-      return _db.Query<Ingredient>(sql).ToList();
+      return _db.Query<Ingredient>(sql, new { id }).ToList();
     }
 
     internal Ingredient GetById(int id)

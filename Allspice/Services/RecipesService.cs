@@ -9,16 +9,26 @@ namespace Allspice.Services
   {
     private readonly RecipesRepository _recRepo;
     private readonly IngredientsRepository _ingRepo;
+    private readonly StepsRepository _steRepo;
 
-    public RecipesService(RecipesRepository recRepo, IngredientsRepository ingRepo)
+    public RecipesService(RecipesRepository recRepo, IngredientsRepository ingRepo, StepsRepository steRepo)
     {
       _recRepo = recRepo;
       _ingRepo = ingRepo;
+      _steRepo = steRepo;
     }
 
     internal List<Recipe> GetAll()
     {
-      return _recRepo.GetAll();
+      List<Recipe> recipes = _recRepo.GetAll();
+      foreach (Recipe r in recipes)
+      {
+        List<Ingredient> ingredients = _ingRepo.GetAll(r.Id);
+        r.Ingredients = ingredients;
+        List<Step> steps = _steRepo.GetAll(r.Id);
+        r.Steps = steps;
+      }
+      return recipes;
     }
 
     internal Recipe GetById(int id)
@@ -28,6 +38,10 @@ namespace Allspice.Services
       {
         throw new Exception("Invalid Recipe Id");
       }
+      List<Ingredient> ingredients = _ingRepo.GetAll(id);
+      found.Ingredients = ingredients;
+      List<Step> steps = _steRepo.GetAll(id);
+      found.Steps = steps;
       return found;
     }
 
@@ -48,6 +62,10 @@ namespace Allspice.Services
       original.Category = updateData.Category ?? original.Category;
       original.ImgUrl = updateData.ImgUrl ?? original.ImgUrl;
       _recRepo.Update(original);
+      List<Ingredient> ingredients = _ingRepo.GetAll(original.Id);
+      original.Ingredients = ingredients;
+      List<Step> steps = _steRepo.GetAll(original.Id);
+      original.Steps = steps;
       return original;
     }
     internal void Remove(int id, Account userInfo)

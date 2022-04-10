@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Allspice.Models;
 using Allspice.Services;
@@ -18,19 +17,6 @@ namespace Allspice.Controllers
     public IngredientsController(IngredientsService ingredientsService)
     {
       _ingredientsService = ingredientsService;
-    }
-    [HttpGet]
-    public ActionResult<List<Ingredient>> GetAll()
-    {
-      try
-      {
-        List<Ingredient> ingredients = _ingredientsService.GetAll();
-        return Ok(ingredients);
-      }
-      catch (Exception e)
-      {
-        return BadRequest(e.Message);
-      }
     }
     [HttpGet("{id}")]
     public ActionResult<Ingredient> GetById(int id)

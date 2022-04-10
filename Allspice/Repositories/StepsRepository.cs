@@ -15,13 +15,14 @@ namespace Allspice.Repositories
       _db = db;
     }
 
-    internal List<Step> GetAll()
+    internal List<Step> GetAll(int id)
     {
       string sql = @"
       SELECT *
-      FROM steps
+      FROM steps s
+      WHERE s.recipeId = @id;
       ";
-      return _db.Query<Step>(sql).ToList();
+      return _db.Query<Step>(sql, new { id }).ToList();
     }
 
     internal Step GetById(int id)

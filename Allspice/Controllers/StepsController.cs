@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Allspice.Models;
 using Allspice.Services;
@@ -18,19 +17,6 @@ namespace Allspice.Controllers
     public StepsController(StepsService stepsService)
     {
       _stepsService = stepsService;
-    }
-    [HttpGet]
-    public ActionResult<List<Step>> GetAll()
-    {
-      try
-      {
-        List<Step> steps = _stepsService.GetAll();
-        return Ok(steps);
-      }
-      catch (Exception e)
-      {
-        return BadRequest(e.Message);
-      }
     }
     [HttpGet("{id}")]
     public ActionResult<Step> GetById(int id)
