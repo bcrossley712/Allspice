@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace Allspice.Models
 {
   public class Recipe
@@ -11,5 +13,7 @@ namespace Allspice.Models
 
     //Virtual
     public Account? Creator { get; set; }
+    public List<Step>? Steps { get; set; }
+    public List<Ingredient>? Ingredients { get; set; }
   }
 }

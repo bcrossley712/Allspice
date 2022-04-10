@@ -19,9 +19,10 @@ namespace Allspice.Repositories
       string sql = @"
       SELECT 
       r.*,
-      a.* 
+      a.*
       FROM recipes r
-      JOIN accounts a WHERE a.id = r.creatorId;";
+      JOIN accounts a WHERE a.id = r.creatorId
+      ;";
       return _db.Query<Recipe, Account, Recipe>(sql, (recipe, account) =>
       {
         recipe.Creator = account;
@@ -34,13 +35,19 @@ namespace Allspice.Repositories
       string sql = @"
       SELECT 
       r.*,
-      a.*
+      a.*,
+      s.*, 
+      i.*
       FROM recipes r 
       JOIN accounts a ON r.creatorId = a.id
+      JOIN steps s ON s.recipeId = r.id
+      JOIN ingredients i ON i.recipeId = r.id
       WHERE r.id = @id";
-      return _db.Query<Recipe, Account, Recipe>(sql, (recipe, account) =>
+      return _db.Query<Recipe, Account, List<Step>, List<Ingredient>, Recipe>(sql, (recipe, account, step, ingredient) =>
       {
         recipe.Creator = account;
+        recipe.Steps = step;
+        recipe.Ingredients = ingredient;
         return recipe;
       }, new { id }).FirstOrDefault();
     }

@@ -8,10 +8,12 @@ namespace Allspice.Services
   public class RecipesService
   {
     private readonly RecipesRepository _recRepo;
+    private readonly IngredientsRepository _ingRepo;
 
-    public RecipesService(RecipesRepository recRepo)
+    public RecipesService(RecipesRepository recRepo, IngredientsRepository ingRepo)
     {
       _recRepo = recRepo;
+      _ingRepo = ingRepo;
     }
 
     internal List<Recipe> GetAll()
@@ -24,7 +26,7 @@ namespace Allspice.Services
       Recipe found = _recRepo.GetById(id);
       if (found == null)
       {
-        throw new Exception("Invalid Id");
+        throw new Exception("Invalid Recipe Id");
       }
       return found;
     }

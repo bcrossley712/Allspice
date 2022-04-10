@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -32,7 +31,7 @@ namespace Allspice.Repositories
       FROM ingredients i
       WHERE i.id = @id;
       ";
-      return _db.QueryFirstOrDefault(sql, new { id });
+      return _db.QueryFirstOrDefault<Ingredient>(sql, new { id });
     }
 
     internal Ingredient Create(Ingredient ingredientData)
@@ -54,8 +53,8 @@ namespace Allspice.Repositories
       string sql = @"
       UPDATE ingredients
       SET
-      name = @Name
-      quantity = @Quantity
+        name = @Name,
+        quantity = @Quantity
       WHERE id = @Id;
       ";
       _db.Execute(sql, original);

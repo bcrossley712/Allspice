@@ -42,3 +42,15 @@ CREATE TABLE IF NOT EXISTS favorites(
   recipeId INT NOT NULL,
   FOREIGN KEY (recipeId) REFERENCES recipes (id)
 ) default charset utf8;
+SELECT
+  r.*,
+  a.*,
+  i.*,
+  s.*
+FROM
+  recipes r
+  JOIN accounts a ON r.creatorId = a.id
+  JOIN ingredients i ON i.recipeId = r.id
+  JOIN steps s ON s.recipeId = r.id
+WHERE
+  r.id = 2

@@ -8,34 +8,61 @@ namespace Allspice.Services
   public class StepsService
   {
     private readonly StepsRepository _steRepo;
+    private readonly RecipesService _recipesService;
 
-    public StepsService(StepsRepository steRepo)
+    public StepsService(StepsRepository steRepo, RecipesService recipesService)
     {
       _steRepo = steRepo;
+      _recipesService = recipesService;
     }
 
     internal List<Step> GetAll()
     {
-      throw new NotImplementedException();
+      return _steRepo.GetAll();
     }
 
     internal Step GetById(int id)
     {
-      throw new NotImplementedException();
+      Step found = _steRepo.GetById(id);
+      if (found == null)
+      {
+        throw new Exception("Invalid Step Id");
+      }
+      return found;
     }
 
     internal Step Create(string userId, Step stepData)
     {
-      throw new NotImplementedException();
+      Recipe foundRecipe = _recipesService.GetById(stepData.RecipeId);
+      if (userId != foundRecipe.CreatorId)
+      {
+        throw new Exception("You did not create this recipe so you cannot add steps to it");
+      }
+      return _steRepo.Create(stepData);
     }
 
-    internal Step Update(string userId, int id, Step updateData)
+    internal Step Update(string userId, Step updateData)
     {
-      throw new NotImplementedException();
+      Step original = GetById(updateData.Id);
+      Recipe foundRecipe = _recipesService.GetById(original.RecipeId);
+      if (userId != foundRecipe.CreatorId)
+      {
+        throw new Exception("You did not create this recipe so you cannot edit steps on it");
+      }
+      original.Body = updateData.Body ?? original.Body;
+      original.Sequence = updateData.Sequence != 0 ? updateData.Sequence : original.Sequence;
+      _steRepo.Update(updateData);
+      return original;
     }
     internal void Remove(string userId, int id)
     {
-      throw new NotImplementedException();
+      Step stepToDelete = GetById(id);
+      Recipe foundRecipe = _recipesService.GetById(stepToDelete.RecipeId);
+      if (userId != foundRecipe.CreatorId)
+      {
+        throw new Exception("You did not create this recipe so you cannot remove steps from it");
+      }
+      _steRepo.Remove(id);
     }
   }
 }

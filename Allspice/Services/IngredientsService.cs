@@ -26,7 +26,7 @@ namespace Allspice.Services
       Ingredient found = _ingRepo.GetById(id);
       if (found == null)
       {
-        throw new Exception("Invalid Id");
+        throw new Exception("Invalid Ingredient Id");
       }
       return found;
     }
@@ -40,14 +40,15 @@ namespace Allspice.Services
       }
       return _ingRepo.Create(ingredientData);
     }
+    //NOTE I realized bringing over the id and the updateData is redundant
     internal Ingredient Update(string userId, int id, Ingredient update)
     {
-      Recipe foundRecipe = _recipesService.GetById(update.RecipeId);
+      Ingredient original = GetById(id);
+      Recipe foundRecipe = _recipesService.GetById(original.RecipeId);
       if (userId != foundRecipe.CreatorId)
       {
         throw new Exception("You did not create this recipe so you cannot edit ingredients in it");
       }
-      Ingredient original = GetById(id);
       original.Name = update.Name ?? original.Name;
       original.Quantity = update.Quantity ?? original.Quantity;
       _ingRepo.Update(original);
