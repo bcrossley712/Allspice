@@ -9,10 +9,13 @@
   flex-direction: column;
   min-height: 100vh;
   background-color: $body-bg;
+  font-family: 'Sahitya',
+    serif;
 }
 
 main {
   flex-grow: 1;
+
 }
 
 a {
@@ -26,6 +29,7 @@ select {
     &:valid {
       border: 1px solid $success;
     }
+
     &:invalid {
       border: 1px solid $danger;
     }

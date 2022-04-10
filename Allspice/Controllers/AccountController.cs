@@ -51,6 +51,20 @@ namespace Allspice.Controllers
         return BadRequest(e.Message);
       }
     }
+    [HttpPut]
+    [Authorize]
+    public async Task<ActionResult<Account>> Update([FromBody] Account updateData)
+    {
+      try {
+        Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
+        Account update = _accountService.Edit(updateData, userInfo.Email);
+        return Ok(update);
+      }
+      catch (Exception e)
+      {
+        return BadRequest(e.Message);
+      }
+    }
   }
 
 

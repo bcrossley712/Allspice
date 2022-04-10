@@ -1,15 +1,18 @@
 <template>
-  <header>
+  <header class="p-3">
     <Navbar />
   </header>
   <main>
     <router-view />
   </main>
-  <footer>
-    <div class="bg-dark text-light text-center p-4">
-      Made with 💖 by CodeWorks
-    </div>
-  </footer>
+  <Modal id="edit-account">
+    <template #title>Edit Account</template>
+    <template #body><EditAccountForm /></template>
+  </Modal>
+  <Modal id="new-recipe">
+    <template #title>New Recipe</template>
+    <template #body><NewRecipeForm /></template>
+  </Modal>
 </template>
 
 <script>
@@ -26,5 +29,4 @@ export default {
 </script>
 <style lang="scss">
 @import "./assets/scss/main.scss";
-
 </style>

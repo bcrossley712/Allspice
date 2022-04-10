@@ -10,7 +10,7 @@
 
     <div class="dropdown my-2 my-lg-0" v-else>
       <div
-        class="dropdown-toggle selectable"
+        class="dropdown-toggle selectable bg-blur"
         data-bs-toggle="dropdown"
         aria-expanded="false"
         id="authDropdown"
@@ -22,18 +22,21 @@
             height="40"
             class="rounded"
           />
-          <span class="mx-3 text-success lighten-30">{{ account.name }}</span>
+          <span class="mx-3 text-info lighten-30">{{ account.name }}</span>
         </div>
       </div>
       <div
         class="dropdown-menu p-0 list-group w-100"
         aria-labelledby="authDropdown"
       >
-        <router-link :to="{ name: 'Account' }">
-          <div class="list-group-item list-group-item-action hoverable">
-            Manage Account
-          </div>
-        </router-link>
+        <div
+          class="list-group-item list-group-item-action hoverable"
+          data-bs-target="#edit-account"
+          data-bs-toggle="modal"
+        >
+          Manage Account
+        </div>
+
         <div
           class="list-group-item list-group-item-action hoverable text-danger"
           @click="logout"
@@ -80,5 +83,10 @@ export default {
 }
 .hoverable {
   cursor: pointer;
+}
+.bg-blur {
+  backdrop-filter: blur(3px);
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.514),
+    -1px -1px 3px rgba(0, 0, 0, 0.514);
 }
 </style>
