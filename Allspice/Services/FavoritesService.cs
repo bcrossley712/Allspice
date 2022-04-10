@@ -1,3 +1,4 @@
+using Allspice.Models;
 using Allspice.Repositories;
 
 namespace Allspice.Services
@@ -9,6 +10,10 @@ namespace Allspice.Services
     public FavoritesService(FavoritesRepository favRepo)
     {
       _favRepo = favRepo;
+    }
+    internal Favorite Create(Favorite favoriteData)
+    {
+      return _favRepo.Create(favoriteData);
     }
   }
 }

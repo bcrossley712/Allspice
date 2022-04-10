@@ -44,12 +44,14 @@ namespace Allspice.Services
       found.Steps = steps;
       return found;
     }
-
+    internal List<RecipeViewModel> GetRecipesByAccount(string id)
+    {
+      return _recRepo.GetRecipesByAccount(id);
+    }
     internal Recipe Create(Recipe recipeData)
     {
       return _recRepo.Create(recipeData);
     }
-
     internal Recipe Update(Account userInfo, Recipe updateData)
     {
       Recipe original = GetById(updateData.Id);

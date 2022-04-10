@@ -35,21 +35,35 @@ namespace Allspice.Repositories
       string sql = @"
       SELECT 
       r.*,
-      a.*,
-      s.*, 
-      i.*
+      a.*
       FROM recipes r 
       JOIN accounts a ON r.creatorId = a.id
-      JOIN steps s ON s.recipeId = r.id
-      JOIN ingredients i ON i.recipeId = r.id
       WHERE r.id = @id";
-      return _db.Query<Recipe, Account, List<Step>, List<Ingredient>, Recipe>(sql, (recipe, account, step, ingredient) =>
+      return _db.Query<Recipe, Account, Recipe>(sql, (recipe, account) =>
       {
         recipe.Creator = account;
-        recipe.Steps = step;
-        recipe.Ingredients = ingredient;
         return recipe;
       }, new { id }).FirstOrDefault();
+    }
+    internal List<RecipeViewModel> GetRecipesByAccount(string id)
+    {
+      string sql = @"
+      SELECT
+      r.*,
+      a.*,
+      f.*
+      FROM favorites f
+      JOIN recipes r ON f.recipeId = r.id
+      JOIN accounts a ON f.accountId = a.id
+      WHERE f.accountId = @id;
+      ";
+      List<RecipeViewModel> recipes = _db.Query<Account, Favorite, RecipeViewModel, RecipeViewModel>(sql, (account, favorite, recipe) =>
+      {
+        recipe.Creator = account;
+        recipe.FavoriteId = favorite.Id;
+        return recipe;
+      }, new { id }).ToList<RecipeViewModel>();
+      return recipes;
     }
     internal Recipe Create(Recipe recipeData)
     {

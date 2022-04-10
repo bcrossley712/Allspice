@@ -38,19 +38,7 @@ CREATE TABLE IF NOT EXISTS ingredients(
 CREATE TABLE IF NOT EXISTS favorites(
   id INT AUTO_INCREMENT PRIMARY KEY,
   accountId VARCHAR(255) NOT NULL,
-  FOREIGN KEY (accountId) REFERENCES accounts (id),
+  FOREIGN KEY (accountId) REFERENCES accounts (id) ON DELETE CASCADE,
   recipeId INT NOT NULL,
-  FOREIGN KEY (recipeId) REFERENCES recipes (id)
+  FOREIGN KEY (recipeId) REFERENCES recipes (id) ON DELETE CASCADE
 ) default charset utf8;
-SELECT
-  r.*,
-  a.*,
-  i.*,
-  s.*
-FROM
-  recipes r
-  JOIN accounts a ON r.creatorId = a.id
-  JOIN ingredients i ON i.recipeId = r.id
-  JOIN steps s ON s.recipeId = r.id
-WHERE
-  r.id = 2

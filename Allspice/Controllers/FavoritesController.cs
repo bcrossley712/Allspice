@@ -1,4 +1,8 @@
+using System.Threading.Tasks;
+using Allspice.Models;
 using Allspice.Services;
+using CodeWorks.Auth0Provider;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Allspice.Controllers
@@ -12,6 +16,23 @@ namespace Allspice.Controllers
     public FavoritesController(FavoritesService favoritesService)
     {
       _favoritesService = favoritesService;
+    }
+    [HttpPost]
+    [Authorize]
+    public async Task<ActionResult<Favorite>> Create([FromBody] Favorite favoriteData)
+    {
+      try
+      {
+        Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
+        favoriteData.AccountId = userInfo.Id;
+        Favorite favorite = _favoritesService.Create(favoriteData);
+        return Created($"api/favorites/{favorite.Id}", favorite);
+
+      }
+      catch (System.Exception e)
+      {
+        return BadRequest(e.Message);
+      }
     }
   }
 }

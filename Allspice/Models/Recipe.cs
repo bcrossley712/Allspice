@@ -16,4 +16,9 @@ namespace Allspice.Models
     public List<Step>? Steps { get; set; }
     public List<Ingredient>? Ingredients { get; set; }
   }
+
+  public class RecipeViewModel : Recipe
+  {
+    public int? FavoriteId { get; set; }
+  }
 }
