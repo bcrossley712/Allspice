@@ -29,6 +29,7 @@
               <h4 class="m-0 px-4 text-success">{{ activeRecipe.title }}</h4>
               <div class="pe-4">
                 <i
+                  v-if="account.id == activeRecipe.creatorId"
                   @click="editRecipe"
                   class="mdi mdi-pencil text-warning selectable"
                   title="Edit Recipe"

@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import { computed, onMounted } from "@vue/runtime-core"
+import { computed, onMounted, watchEffect } from "@vue/runtime-core"
 import { recipesService } from "../services/RecipesService";
 import { AppState } from "../AppState";
 import { favoritesService } from "../services/FavoritesService";
@@ -34,11 +34,11 @@ import { logger } from "../utils/Logger";
 import Pop from "../utils/Pop";
 export default {
   setup() {
-    onMounted(async () => {
+    watchEffect(async () => {
       try {
         await recipesService.getRecipes()
         // FIXME Error parsing column 8???? 
-        // await accountService.getAccountRecipes()
+        await accountService.getAccountRecipes()
       } catch (error) {
         logger.error(error)
         Pop.toast(error.message, 'error')

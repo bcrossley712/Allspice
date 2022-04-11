@@ -55,6 +55,7 @@
             <span>{{ i.quantity }} {{ i.name }}</span>
             <div>
               <i
+                v-if="account.id == activeRecipe.creatorId"
                 @click="deleteIngredient"
                 id="edit-step"
                 class="mdi mdi-delete text-danger selectable"

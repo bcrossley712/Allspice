@@ -42,3 +42,13 @@ CREATE TABLE IF NOT EXISTS favorites(
   recipeId INT NOT NULL,
   FOREIGN KEY (recipeId) REFERENCES recipes (id) ON DELETE CASCADE
 ) default charset utf8;
+SELECT
+  r.*,
+  a.*,
+  f.*
+FROM
+  favorites f
+  JOIN recipes r ON f.recipeId = r.id
+  JOIN accounts a ON f.accountId = a.id
+WHERE
+  f.accountId = "623508ebfe0922d93c7cc448";

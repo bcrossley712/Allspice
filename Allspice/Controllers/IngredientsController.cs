@@ -47,6 +47,7 @@ namespace Allspice.Controllers
       }
     }
     [HttpPut("{id}")]
+    [Authorize]
     public async Task<ActionResult<Ingredient>> Update(int id, [FromBody] Ingredient updateData)
     {
       try

@@ -67,6 +67,7 @@
             <span>{{ s.sequence }}. {{ s.body }}</span>
             <div>
               <i
+                v-if="account.id == activeRecipe.creatorId"
                 @click="deleteStep"
                 id="edit-step"
                 class="mdi mdi-delete text-danger selectable"

@@ -57,7 +57,7 @@ namespace Allspice.Repositories
       JOIN accounts a ON f.accountId = a.id
       WHERE f.accountId = @id;
       ";
-      List<RecipeViewModel> recipes = _db.Query<Account, Favorite, RecipeViewModel, RecipeViewModel>(sql, (account, favorite, recipe) =>
+      List<RecipeViewModel> recipes = _db.Query<RecipeViewModel, Account, Favorite, RecipeViewModel>(sql, (recipe, account, favorite) =>
       {
         recipe.Creator = account;
         recipe.FavoriteId = favorite.Id;
