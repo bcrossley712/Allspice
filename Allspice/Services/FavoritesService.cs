@@ -1,3 +1,4 @@
+using System;
 using Allspice.Models;
 using Allspice.Repositories;
 
@@ -14,6 +15,15 @@ namespace Allspice.Services
     internal Favorite Create(Favorite favoriteData)
     {
       return _favRepo.Create(favoriteData);
+    }
+
+    internal void Remove(string userId, int id)
+    {
+      Favorite favorite = _favRepo.GetById(id);
+      if(favorite.AccountId != userId){
+        throw new Exception("You cannot delete this");
+      }
+      _favRepo.Remove(id);
     }
   }
 }

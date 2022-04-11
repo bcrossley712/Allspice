@@ -1,10 +1,5 @@
 <template>
-  <div
-    class="row m-2"
-    @click="setActive"
-    data-bs-toggle="modal"
-    data-bs-target="#active-recipe"
-  >
+  <div class="row m-2">
     <div
       class="
         col-12
@@ -15,7 +10,6 @@
         d-flex
         flex-column
         justify-content-between
-        selectable
       "
     >
       <div class="d-flex justify-content-between">
@@ -24,10 +18,23 @@
             {{ recipe.category }}
           </span>
         </div>
-        <FavoritesSelector />
+        <FavoritesSelector :recipe="recipe" />
       </div>
       <div
-        class="p-1 bg-blur text-light rounded d-flex flex-column w-100 fw-bold"
+        @click="setActive"
+        data-bs-toggle="modal"
+        data-bs-target="#active-recipe"
+        class="
+          p-1
+          bg-blur
+          text-light
+          rounded
+          d-flex
+          flex-column
+          w-100
+          fw-bold
+          selectable
+        "
       >
         <span>
           {{ recipe.title }}

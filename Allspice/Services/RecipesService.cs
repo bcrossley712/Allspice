@@ -50,7 +50,12 @@ namespace Allspice.Services
     }
     internal Recipe Create(Recipe recipeData)
     {
-      return _recRepo.Create(recipeData);
+      Recipe created = _recRepo.Create(recipeData);
+      List<Ingredient> ingredients = _ingRepo.GetAll(recipeData.Id);
+      created.Ingredients = ingredients;
+      List<Step> steps = _steRepo.GetAll(recipeData.Id);
+      created.Steps = steps;
+      return created;
     }
     internal Recipe Update(Account userInfo, Recipe updateData)
     {

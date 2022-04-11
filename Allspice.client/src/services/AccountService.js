@@ -11,6 +11,11 @@ class AccountService {
       logger.error('HAVE YOU STARTED YOUR SERVER YET???', err)
     }
   }
+  async getAccountRecipes() {
+    const res = await api.get('account/recipes')
+    logger.log('[getAccountRecipes]', res.data)
+    AppState.favorites = res.data
+  }
   async editAccount(update) {
     const res = await api.put('account', update)
     AppState.account = res.data

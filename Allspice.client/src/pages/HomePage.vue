@@ -17,6 +17,10 @@
     <ModalXL id="active-recipe">
       <template #body><ActiveRecipeForm /></template>
     </ModalXL>
+    <Modal id="edit-step">
+      <template #title>Edit Step</template>
+      <template #body><RecipeSteps /></template>
+    </Modal>
   </div>
 </template>
 
@@ -24,11 +28,17 @@
 import { computed, onMounted } from "@vue/runtime-core"
 import { recipesService } from "../services/RecipesService";
 import { AppState } from "../AppState";
+import { favoritesService } from "../services/FavoritesService";
+import { accountService } from "../services/AccountService";
+import { logger } from "../utils/Logger";
+import Pop from "../utils/Pop";
 export default {
   setup() {
     onMounted(async () => {
       try {
         await recipesService.getRecipes()
+        // FIXME Error parsing column 8???? 
+        // await accountService.getAccountRecipes()
       } catch (error) {
         logger.error(error)
         Pop.toast(error.message, 'error')

@@ -1,20 +1,31 @@
 <template>
   <button class="btn-me" title="Favorite" @click="favoriteToggle">
-    <i class="mdi mdi-heart-outline fs-4"></i>
+    <i v-if="!hearted" class="mdi mdi-heart-outline fs-4"></i>
+    <i v-else class="mdi mdi-heart text-danger"></i>
   </button>
 </template>
 
 
 <script>
-import { ref } from "@vue/reactivity"
+import { computed, ref } from "@vue/reactivity"
 import Pop from "../utils/Pop"
 import { logger } from "../utils/Logger"
+import { favoritesService } from "../services/FavoritesService";
+import { AppState } from "../AppState";
 export default {
-  setup() {
+  props: {
+    recipe: {
+      type: Object,
+      required: true
+    }
+  },
+  setup(props) {
     return {
+      favorites: computed(() => AppState.favorites),
+      hearted: computed(() => AppState.favorites.includes(f => f.recipeId == props.recipe.id)),
       async favoriteToggle() {
         try {
-          logger.error("Need to set up")
+          await favoritesService.createFavorite(props.recipe.id)
         } catch (error) {
           logger.error(error)
           Pop.toast(error.message, 'error')

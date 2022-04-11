@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Allspice.Models;
 using Allspice.Services;
@@ -30,6 +31,21 @@ namespace Allspice.Controllers
 
       }
       catch (System.Exception e)
+      {
+        return BadRequest(e.Message);
+      }
+    }
+    [HttpDelete("{id}")]
+    [Authorize]
+    public async Task<ActionResult<string>> Remove(int id)
+    {
+      try
+      {
+        Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
+        _favoritesService.Remove(userInfo.Id, id);
+        return Ok("Deleted");
+      }
+      catch (Exception e)
       {
         return BadRequest(e.Message);
       }

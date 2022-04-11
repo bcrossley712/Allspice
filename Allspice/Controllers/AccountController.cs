@@ -55,7 +55,8 @@ namespace Allspice.Controllers
     [Authorize]
     public async Task<ActionResult<Account>> Update([FromBody] Account updateData)
     {
-      try {
+      try
+      {
         Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
         Account update = _accountService.Edit(updateData, userInfo.Email);
         return Ok(update);

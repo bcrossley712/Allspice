@@ -13,6 +13,15 @@ namespace Allspice.Repositories
       _db = db;
     }
 
+    internal Favorite GetById(int id)
+    {
+      string sql = @"
+      SELECT *
+      FROM favorites f
+      WHERE f.id = @id;
+      ";
+      return _db.QueryFirstOrDefault<Favorite>(sql, new { id });
+    }
     internal Favorite Create(Favorite favoriteData)
     {
       string sql = @"
@@ -26,5 +35,14 @@ namespace Allspice.Repositories
       favoriteData.Id = id;
       return favoriteData;
     }
+
+    internal void Remove(int id)
+    {
+      string sql = @"
+      DELETE FROM favorites WHERE id = @id LIMIT 1;
+      ";
+      _db.Execute(sql, new { id });
+    }
+
   }
 }

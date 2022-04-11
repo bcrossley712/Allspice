@@ -27,7 +27,7 @@
               name="quantity"
               id="quantity"
               aria-describedby="helpId"
-              placeholder="Quantity..."
+              placeholder="Amt/measure..."
               v-model="editable.quantity"
             />
           </div>
@@ -43,13 +43,25 @@
               placeholder="Name..."
               v-model="editable.name"
             />
-            <i class="mdi mdi-plus"></i>
+            <button class="btn">
+              <i class="mdi mdi-plus" title="Add Ingredient"></i>
+            </button>
           </div>
         </div>
       </form>
       <div class="row">
         <div class="col-12" v-for="i in ingredients" :key="i.id">
-          <span>{{ i.quantity }} {{ i.name }}</span>
+          <div class="d-flex justify-content-between">
+            <span>{{ i.quantity }} {{ i.name }}</span>
+            <div>
+              <i
+                @click="deleteIngredient"
+                id="edit-step"
+                class="mdi mdi-delete text-danger selectable"
+                title="Delete Step"
+              ></i>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -62,9 +74,10 @@ import { computed, ref } from "@vue/reactivity"
 import Pop from "../utils/Pop"
 import { logger } from "../utils/Logger"
 import { AppState } from "../AppState"
+import { ingredientsService } from "../services/IngredientsService";
 export default {
   setup() {
-    const editable = ({})
+    const editable = ref({})
     return {
       editable,
       ingredients: computed(() => AppState.activeRecipe?.ingredients),
@@ -79,7 +92,18 @@ export default {
       },
       async handleSubmit() {
         try {
-
+          editable.value.recipeId = AppState.activeRecipe.id
+          await ingredientsService.addIngredient(editable.value)
+          editable.value = {}
+          document.getElementById('add-ingredient').classList.add('hidden')
+        } catch (error) {
+          logger.error(error)
+          Pop.toast(error.message, 'error')
+        }
+      },
+      async deleteIngredient() {
+        try {
+          logger.error('Not yet set up')
         } catch (error) {
           logger.error(error)
           Pop.toast(error.message, 'error')
