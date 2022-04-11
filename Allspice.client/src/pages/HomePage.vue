@@ -14,9 +14,9 @@
         <Recipe :recipe="r" />
       </div>
     </div>
-    <Modal id="active-recipe">
+    <ModalXL id="active-recipe">
       <template #body><ActiveRecipeForm /></template>
-    </Modal>
+    </ModalXL>
   </div>
 </template>
 
@@ -65,6 +65,7 @@ export default {
   position: fixed;
   bottom: 30px;
   right: 30px;
+  z-index: 100;
 }
 // .btn-me{
 //   display: inline-block;

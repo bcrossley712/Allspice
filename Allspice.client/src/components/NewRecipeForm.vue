@@ -11,6 +11,8 @@
         placeholder="Title..."
         v-model="editable.title"
         required
+        maxlength="25"
+        minlength="3"
       />
     </div>
     <div class="mb-3">
@@ -24,6 +26,8 @@
         placeholder="Subtitle..."
         v-model="editable.subtitle"
         required
+        maxlength="30"
+        minlength="3"
       />
     </div>
     <div class="mb-3">
@@ -48,7 +52,6 @@
         v-model="editable.category"
         required
       >
-        <option disabled selected>Select a category...</option>
         <option>Appetizers/Beverages</option>
         <option>Breads/Muffins</option>
         <option>Soups/Salads</option>
@@ -76,15 +79,15 @@ import { Modal } from "bootstrap"
 import { recipesService } from "../services/RecipesService"
 export default {
   setup() {
-    const editable = ref({ category: "Select a category..." })
+    const editable = ref({})
     return {
       editable,
       recipes: computed(() => AppState.recipes),
       async handleSubmit() {
         try {
-          await recipesService.createRecipe(editable)
-          Modal.getOrCreateInstance(document.getElementById('new-recipe')).hide
-          editable.value = { category: "Select a category..." }
+          await recipesService.createRecipe(editable.value)
+          Modal.getOrCreateInstance(document.getElementById('new-recipe')).hide()
+          editable.value = {}
         } catch (error) {
           logger.error(error)
           Pop.toast(error.message, 'error')

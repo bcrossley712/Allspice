@@ -6,20 +6,9 @@
     aria-labelledby="modelTitleId"
     aria-hidden="true"
   >
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog-centered modal-dialog modal-xl" role="document">
       <div class="modal-content">
-        <div class="modal-header bg-info text-light">
-          <h3 class="modal-title">
-            <slot name="title"> </slot>
-          </h3>
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-          ></button>
-        </div>
-        <div class="modal-body">
+        <div class="modal-body p-0">
           <slot name="body"> </slot>
         </div>
       </div>

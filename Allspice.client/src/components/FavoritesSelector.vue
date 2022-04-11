@@ -1,0 +1,48 @@
+<template>
+  <button class="btn-me" title="Favorite" @click="favoriteToggle">
+    <i class="mdi mdi-heart-outline fs-4"></i>
+  </button>
+</template>
+
+
+<script>
+import { ref } from "@vue/reactivity"
+import Pop from "../utils/Pop"
+import { logger } from "../utils/Logger"
+export default {
+  setup() {
+    return {
+      async favoriteToggle() {
+        try {
+          logger.error("Need to set up")
+        } catch (error) {
+          logger.error(error)
+          Pop.toast(error.message, 'error')
+        }
+      }
+    }
+  }
+}
+</script>
+
+
+<style lang="scss" scoped>
+.btn-me {
+  display: inline-block;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #212529;
+  text-align: center;
+  text-decoration: none;
+  vertical-align: middle;
+  cursor: pointer;
+  user-select: none;
+  opacity: 0.8;
+  background-color: grey;
+  border: 1px solid grey;
+  font-size: 1rem;
+  border-radius: 0.25rem;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+    border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+</style>
