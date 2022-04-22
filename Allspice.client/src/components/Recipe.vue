@@ -10,7 +10,11 @@
         d-flex
         flex-column
         justify-content-between
+        selectable
       "
+      @click="setActive"
+      data-bs-toggle="modal"
+      data-bs-target="#active-recipe"
     >
       <div class="d-flex justify-content-between">
         <div>
@@ -21,20 +25,7 @@
         <FavoritesSelector :recipe="recipe" />
       </div>
       <div
-        @click="setActive"
-        data-bs-toggle="modal"
-        data-bs-target="#active-recipe"
-        class="
-          p-1
-          bg-blur
-          text-light
-          rounded
-          d-flex
-          flex-column
-          w-100
-          fw-bold
-          selectable
-        "
+        class="p-1 bg-blur text-light rounded d-flex flex-column w-100 fw-bold"
       >
         <span>
           {{ recipe.title }}

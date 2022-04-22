@@ -6,7 +6,13 @@ class FavoritesService {
   async createFavorite(recipeId) {
     const res = await api.post('api/favorites', { recipeId: recipeId })
     logger.log("[createFavorite]", res.data)
-    AppState.favorites.push(res.data)
+    const exists = AppState.favorites.find(f => f.recipeId == recipeId)
+    if (!exists) {
+      AppState.favorites.push(res.data)
+    }
+  }
+  async deleteFavorite(recipeId, userId) {
+    logger.error("Method not setup")
   }
 }
 export const favoritesService = new FavoritesService()

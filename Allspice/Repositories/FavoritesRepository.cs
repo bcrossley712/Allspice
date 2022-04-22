@@ -1,4 +1,5 @@
 using System.Data;
+using System.Linq;
 using Allspice.Models;
 using Dapper;
 
@@ -22,6 +23,18 @@ namespace Allspice.Repositories
       ";
       return _db.QueryFirstOrDefault<Favorite>(sql, new { id });
     }
+
+    internal Favorite Get(string accountId, int recipeId)
+    {
+      string sql = @"
+      SELECT
+      f.*
+      FROM favorites f
+      WHERE f.accountId = @accountId AND f.recipeId = @recipeId
+      ";
+      return _db.Query<Favorite>(sql, new { accountId, recipeId }).FirstOrDefault();
+    }
+
     internal Favorite Create(Favorite favoriteData)
     {
       string sql = @"

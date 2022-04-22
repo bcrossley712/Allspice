@@ -1,7 +1,15 @@
 <template>
-  <button class="btn-me" title="Favorite" @click="favoriteToggle">
-    <i v-if="!hearted" class="mdi mdi-heart-outline fs-4"></i>
-    <i v-else class="mdi mdi-heart text-danger"></i>
+  <button class="btn-me" title="Favorite">
+    <i
+      v-if="!hearted"
+      class="mdi mdi-heart-outline fs-4"
+      @click.stop="createFavorite"
+    ></i>
+    <i
+      v-else
+      class="mdi mdi-heart text-danger fs-4"
+      @click.stop="deleteFavorite"
+    ></i>
   </button>
 </template>
 
@@ -22,10 +30,18 @@ export default {
   setup(props) {
     return {
       favorites: computed(() => AppState.favorites),
-      hearted: computed(() => AppState.favorites.includes(f => f.recipeId == props.recipe.id)),
-      async favoriteToggle() {
+      hearted: computed(() => AppState.favorites.find(f => f.id == props.recipe.id || f.recipeId == props.recipe.id)),
+      async createFavorite() {
         try {
           await favoritesService.createFavorite(props.recipe.id)
+        } catch (error) {
+          logger.error(error)
+          Pop.toast(error.message, 'error')
+        }
+      },
+      async deleteFavorite() {
+        try {
+          await favoritesService.deleteFavorite(props.recipe.id, AppState.account.id)
         } catch (error) {
           logger.error(error)
           Pop.toast(error.message, 'error')

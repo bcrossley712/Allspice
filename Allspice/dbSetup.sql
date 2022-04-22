@@ -52,3 +52,10 @@ FROM
   JOIN accounts a ON f.accountId = a.id
 WHERE
   f.accountId = "623508ebfe0922d93c7cc448";
+SELECT
+  f.*
+FROM
+  favorites f
+WHERE
+  f.accountId = "623508ebfe0922d93c7cc448"
+  AND f.recipeId = "2"
