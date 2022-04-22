@@ -59,7 +59,7 @@ a:hover {
   border-bottom-right-radius: 0;
 }
 .bg-photo {
-  background-image: url("https://s3-alpha-sig.figma.com/img/137d/d14c/aa93e0df14a805e8e10c9f1221ba5131?Expires=1650240000&Signature=QDklkOQqyZ-P-3Bd77XJ~HHGOU8xpAGC~t3yTSHDO-CiKPA1TDRy4QjlFs0C3n4CrvN6TYh~ht7p1SWSmSkEd8cjqDQJ2hXrAgM-rP-50011tWQCBpbszDWCFlBg5iDHecehWJIoNsBacOOtjTfuLlJywl5ywlmsZzUKIhetnugmDiuLsGgUu4LvGPsLFYkbaYObmsLYXFMKjPguSYVZ3jZ-Bs1fThfLXuAMPVxjoEpi9~h4BmIGC2qH6RW4SABaKdjdibQurjlmDFSL~Q1vZzh9OCY7cJMGHsn60Nz1cM~2l3wXNI5by-gvKOA~zwI0DGNbQWU8FH3iSmFSl8xPyw__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA");
+  background-image: url("https://images.unsplash.com/photo-1615937722923-67f6deaf2cc9?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80");
   background-repeat: no-repeat;
   background-size: cover;
 }
