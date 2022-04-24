@@ -20,13 +20,13 @@ namespace Allspice.Controllers
     }
     [HttpPost]
     [Authorize]
-    public async Task<ActionResult<Favorite>> Create([FromBody] Favorite favoriteData)
+    public async Task<ActionResult<RecipeViewModel>> Create([FromBody] Favorite favoriteData)
     {
       try
       {
         Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
         favoriteData.AccountId = userInfo.Id;
-        Favorite favorite = _favoritesService.Create(favoriteData);
+        RecipeViewModel favorite = _favoritesService.Create(favoriteData);
         return Created($"api/favorites/{favorite.Id}", favorite);
 
       }

@@ -12,14 +12,15 @@ namespace Allspice.Services
     {
       _favRepo = favRepo;
     }
-    internal Favorite Create(Favorite favoriteData)
+    internal RecipeViewModel Create(Favorite favoriteData)
     {
       Favorite exists = _favRepo.Get(favoriteData.AccountId, favoriteData.RecipeId);
       if (exists != null)
       {
-        return exists;
+        throw new Exception("This is already a favorite");
       }
-      return _favRepo.Create(favoriteData);
+      Favorite newFav = _favRepo.Create(favoriteData);
+      return _favRepo.FindNewFav(newFav);
     }
 
     internal void Remove(string userId, int id)

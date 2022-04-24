@@ -41,7 +41,7 @@ export default {
       },
       async deleteFavorite() {
         try {
-          await favoritesService.deleteFavorite(props.recipe.id, AppState.account.id)
+          await favoritesService.deleteFavorite(props.recipe.id)
         } catch (error) {
           logger.error(error)
           Pop.toast(error.message, 'error')

@@ -35,6 +35,25 @@ namespace Allspice.Repositories
       return _db.Query<Favorite>(sql, new { accountId, recipeId }).FirstOrDefault();
     }
 
+    internal RecipeViewModel FindNewFav(Favorite favoriteData)
+    {
+      string sql = @"
+      SELECT
+      a.*,
+      r.*,
+      f.id AS favoriteId
+      FROM favorites f
+      JOIN accounts a ON f.accountId = a.id
+      JOIN recipes r ON f.recipeId = r.id
+      WHERE f.id = @id
+      ";
+      return _db.Query<Account, RecipeViewModel, RecipeViewModel>(sql, (a, r) =>
+      {
+        r.Creator = a;
+        return r;
+      }, favoriteData).FirstOrDefault();
+    }
+
     internal Favorite Create(Favorite favoriteData)
     {
       string sql = @"

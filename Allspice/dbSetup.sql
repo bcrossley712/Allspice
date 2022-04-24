@@ -26,22 +26,24 @@ CREATE TABLE IF NOT EXISTS steps(
   recipeId INT NOT NULL,
   FOREIGN KEY (recipeId) REFERENCES recipes (id)
 ) default charset utf8;
+ALTER TABLE
+  steps DROP INDEX FOREIGN KEY (recipeId);
 CREATE TABLE IF NOT EXISTS ingredients(
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  createdAt DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT 'Time Created',
-  updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Last Update',
-  name TEXT NOT NULL,
-  quantity TEXT NOT NULL,
-  recipeId INT NOT NULL,
-  FOREIGN KEY (recipeId) REFERENCES recipes (id)
-) default charset utf8;
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    createdAt DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT 'Time Created',
+    updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Last Update',
+    name TEXT NOT NULL,
+    quantity TEXT NOT NULL,
+    recipeId INT NOT NULL,
+    FOREIGN KEY (recipeId) REFERENCES recipes (id)
+  ) default charset utf8;
 CREATE TABLE IF NOT EXISTS favorites(
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  accountId VARCHAR(255) NOT NULL,
-  FOREIGN KEY (accountId) REFERENCES accounts (id) ON DELETE CASCADE,
-  recipeId INT NOT NULL,
-  FOREIGN KEY (recipeId) REFERENCES recipes (id) ON DELETE CASCADE
-) default charset utf8;
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    accountId VARCHAR(255) NOT NULL,
+    FOREIGN KEY (accountId) REFERENCES accounts (id) ON DELETE CASCADE,
+    recipeId INT NOT NULL,
+    FOREIGN KEY (recipeId) REFERENCES recipes (id) ON DELETE CASCADE
+  ) default charset utf8;
 SELECT
   r.*,
   a.*,
